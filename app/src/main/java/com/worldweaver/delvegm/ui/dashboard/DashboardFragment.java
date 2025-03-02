@@ -1,4 +1,4 @@
-package com.example.worldweaver.ui.dashboard;
+package com.worldweaver.delvegm.ui.dashboard;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.worldweaver.databinding.FragmentDashboardBinding;
+import com.worldweaver.delvegm.databinding.FragmentDashboardBinding;
 
 public class DashboardFragment extends Fragment {
 

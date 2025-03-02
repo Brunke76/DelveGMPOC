@@ -1,4 +1,4 @@
-package com.example.worldweaver;
+package com.worldweaver.delvegm;
 
 import org.junit.Test;
 

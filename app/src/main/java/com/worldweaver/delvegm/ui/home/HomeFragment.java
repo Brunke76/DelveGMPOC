@@ -1,4 +1,4 @@
-package com.example.worldweaver.ui.home;
+package com.worldweaver.delvegm.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.worldweaver.databinding.FragmentHomeBinding;
+import com.worldweaver.delvegm.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
 

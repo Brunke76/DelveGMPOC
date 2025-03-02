@@ -1,4 +1,4 @@
-package com.example.worldweaver.ui.notifications;
+package com.worldweaver.delvegm.ui.notifications;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.worldweaver.databinding.FragmentNotificationsBinding;
+import com.worldweaver.delvegm.databinding.FragmentNotificationsBinding;
 
 public class NotificationsFragment extends Fragment {
 

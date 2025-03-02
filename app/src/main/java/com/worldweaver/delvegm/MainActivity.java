@@ -1,4 +1,4 @@
-package com.example.worldweaver;
+package com.worldweaver.delvegm;
 
 import android.os.Bundle;
 
@@ -10,7 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.worldweaver.databinding.ActivityMainBinding;
+import com.worldweaver.delvegm.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 

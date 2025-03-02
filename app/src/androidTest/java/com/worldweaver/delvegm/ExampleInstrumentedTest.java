@@ -1,4 +1,4 @@
-package com.example.worldweaver;
+package com.worldweaver.delvegm;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.worldweaver", appContext.getPackageName());
+        assertEquals("com.worldweaver.delvegm", appContext.getPackageName());
     }
 }
