@@ -14,6 +14,7 @@ import com.worldweaver.delvegm.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
 
+    // This creates a binding for the FragmentHome
     private FragmentHomeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -25,6 +26,8 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         final TextView textView = binding.textHome;
+        // This will run the setText method in the textView object
+        // (using the value of homeViewModel.getText()) once the view starts
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }

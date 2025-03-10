@@ -15,4 +15,5 @@
     <string name="feature_campaigns_activity_description">Create and edit your tabletop campaign settings</string>
     <string name="feature_adventures_activity_title">Adventures</string>
     <string name="feature_adventures_activity_description">Create and edit your tabletop adventures</string>
+    <string name="features_menu_header">Game Master Tools</string>
 </resources>

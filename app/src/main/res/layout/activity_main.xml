@@ -75,7 +75,7 @@
             android:id="@+id/features_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Game Master Tools"
+            android:text="@string/features_menu_header"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:textAppearance="?attr/textAppearanceHeadline6"
