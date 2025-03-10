@@ -22,6 +22,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RuleSetsActivity"
+            android:exported="true"
+            android:label="@string/feature_rule_sets_activity_title">
+        </activity>
+        <activity
+            android:name=".GameWorldsActivity"
+            android:exported="true"
+            android:label="@string/feature_rule_sets_activity_title">
+        </activity>
+        <activity
+            android:name=".WeatherActivity"
+            android:exported="true"
+            android:label="@string/feature_rule_sets_activity_title">
+        </activity>
+        <activity
+            android:name=".TimeTrackingActivity"
+            android:exported="true"
+            android:label="@string/feature_rule_sets_activity_title">
+        </activity>
     </application>
 
 </manifest>
