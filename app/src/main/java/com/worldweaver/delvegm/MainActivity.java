@@ -2,36 +2,74 @@ package com.worldweaver.delvegm;
 
 import android.os.Bundle;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
-import com.worldweaver.delvegm.databinding.ActivityMainBinding;
+import com.worldweaver.delvegm.ui.features.Feature;
+import com.worldweaver.delvegm.ui.viewadapter.FeatureCarouselAdapter;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
+    private RecyclerView featureCarousel;
+    private FeatureCarouselAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        getLayoutInflater();
+        // Initialize the RecyclerView
+        featureCarousel = findViewById(R.id.feature_carousel);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        // Set up horizontal layout with paging effect
+        LinearLayoutManager layoutManager = new LinearLayoutManager(
+                this, LinearLayoutManager.HORIZONTAL, false);
+        featureCarousel.setLayoutManager(layoutManager);
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+        // Add snap behavior for carousel effect
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(featureCarousel);
+
+        // Create and set the adapter
+        adapter = new FeatureCarouselAdapter(getFeaturesList(), this);
+        featureCarousel.setAdapter(adapter);
     }
 
+    /**
+     * Get the list of features for the carousel
+     */
+    private List<Feature> getFeaturesList() {
+        return Arrays.asList(
+                Feature.builder()
+                        .title(getResources().getString(R.string.feature_rule_sets_activity_title))
+                        .description(getResources().getString(R.string.feature_rule_sets_activity_description))
+                        .imageResId(R.drawable.ic_rule_sets)
+                        .activityClass(RuleSetsActivity.class)
+                        .build(),
+                Feature.builder()
+                        .title(getResources().getString(R.string.feature_game_worlds_activity_title))
+                        .description(getResources().getString(R.string.feature_game_worlds_activity_description))
+                        .imageResId(R.drawable.ic_game_worlds)
+                        .activityClass(GameWorldsActivity.class)
+                        .build(),
+                Feature.builder()
+                        .title(getResources().getString(R.string.feature_weather_activity_title))
+                        .description(getResources().getString(R.string.feature_weather_activity_description))
+                        .imageResId(R.drawable.ic_weather)
+                        .activityClass(WeatherActivity.class)
+                        .build(),
+                Feature.builder()
+                        .title(getResources().getString(R.string.feature_time_and_events_activity_title))
+                        .description(getResources().getString(R.string.feature_time_and_events_activity_description))
+                        .imageResId(R.drawable.ic_time)
+                        .activityClass(TimeTrackingActivity.class)
+                        .build()
+        );
+    }
 }

@@ -3,4 +3,16 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="feature_rule_sets_activity_title">Rule Sets</string>
+    <string name="feature_rule_sets_activity_description">Manage the different Rulesets for your table top games</string>
+    <string name="feature_game_worlds_activity_title">Game Worlds</string>
+    <string name="feature_game_worlds_activity_description">Create and edit the different worlds for your games</string>
+    <string name="feature_weather_activity_title">Weather</string>
+    <string name="feature_weather_activity_description">Create and edit the weather effects for your games</string>
+    <string name="feature_time_and_events_activity_title">Time &amp; Events</string>
+    <string name="feature_time_and_events_activity_description">Create, edit and manage Game World Calendars, clocks, and events</string>
+    <string name="feature_campaigns_activity_title">Campaigns</string>
+    <string name="feature_campaigns_activity_description">Create and edit your tabletop campaign settings</string>
+    <string name="feature_adventures_activity_title">Adventures</string>
+    <string name="feature_adventures_activity_description">Create and edit your tabletop adventures</string>
 </resources>

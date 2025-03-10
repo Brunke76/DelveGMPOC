@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- menu/top_app_bar_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Settings"
+        android:contentDescription="Settings"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/change_campaign"
+        android:title="Change Campaign"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/export_data"
+        android:title="Export Data"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/import_data"
+        android:title="Import Data"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/help"
+        android:title="Help"
+        app:showAsAction="never" />
+</menu>
