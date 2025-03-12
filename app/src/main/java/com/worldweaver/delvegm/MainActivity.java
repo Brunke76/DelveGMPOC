@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import com.worldweaver.delvegm.ui.features.Feature;
 import com.worldweaver.delvegm.ui.viewadapter.FeatureCarouselAdapter;
+import com.worldweaver.delvegm.ui.viewadapter.HeroCarouselTransformer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,6 +51,19 @@ public class MainActivity extends AppCompatActivity {
 
         // Add item decoration for proper spacing
         featureCarousel.addItemDecoration(new CarouselItemDecoration());
+
+        // Add the Hero carousel width transformation effect
+        HeroCarouselTransformer transformer = new HeroCarouselTransformer();
+        featureCarousel.addItemDecoration(transformer);
+
+        // Add scroll listener to continuously apply transformations
+        featureCarousel.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                recyclerView.invalidate(); // Force redraw to apply transformations
+            }
+        });
 
         // Create and set the adapter
         adapter = new FeatureCarouselAdapter(getFeaturesList(), this);

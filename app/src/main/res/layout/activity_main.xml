@@ -85,15 +85,23 @@
             app:layout_constraintTop_toBottomOf="@id/campaign_summary_card" />
 
         <!-- Feature carousel -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/feature_carousel"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:paddingTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingBottom="8dp" />
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/feature_carousel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="40dp"
+                android:paddingEnd="40dp" />
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/indicator_container"
