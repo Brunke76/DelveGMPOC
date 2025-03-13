@@ -3,6 +3,7 @@ package com.worldweaver.delvegm;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -12,19 +13,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.worldweaver.delvegm.ui.features.Feature;
 import com.worldweaver.delvegm.ui.viewadapter.FeatureCarouselAdapter;
+import com.worldweaver.delvegm.ui.viewadapter.HeroCarouselPageTransformer;
 import com.worldweaver.delvegm.ui.viewadapter.HeroCarouselTransformer;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FeatureCarouselAdapter adapter;
-    private RecyclerView featureCarousel;
+    private ViewPager2 viewPager;
     private LinearLayout indicatorContainer;
+    private FeatureCarouselAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,125 +36,112 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Initialize views
-        featureCarousel = findViewById(R.id.feature_carousel);
+        viewPager = findViewById(R.id.view_pager);
         indicatorContainer = findViewById(R.id.indicator_container);
+        if (viewPager == null) {
+            // Handle the error or log it
+            Log.e("MainActivity", "ViewPager2 not found in layout");
+            return;
+        }
+        if (indicatorContainer == null) {
+            // Handle the error or log it
+            Log.e("MainActivity", "Indicator View not found in layout");
+            return;
+        }
 
         // Set up the carousel
         setupCarousel();
     }
 
     private void setupCarousel() {
-        // Set up horizontal layout with paging effect
-        LinearLayoutManager layoutManager = new LinearLayoutManager(
-                this, LinearLayoutManager.HORIZONTAL, false);
-        featureCarousel.setLayoutManager(layoutManager);
+        // Create adapter with feature data
+        adapter = new FeatureCarouselAdapter(getFeaturesList(), this);
+        viewPager.setAdapter(adapter);
 
-        // Add snap behavior for carousel effect
-        SnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(featureCarousel);
+        // Set offscreen page limit to keep adjacent pages ready
+        viewPager.setOffscreenPageLimit(3);
 
-        // Add item decoration for proper spacing
-        featureCarousel.addItemDecoration(new CarouselItemDecoration());
+        // Add page transformer for Hero carousel effect
+        viewPager.setPageTransformer(new HeroCarouselPageTransformer());
 
-        // Add the Hero carousel width transformation effect
-        HeroCarouselTransformer transformer = new HeroCarouselTransformer();
-        featureCarousel.addItemDecoration(transformer);
-
-        // Add scroll listener to continuously apply transformations
-        featureCarousel.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        // Set page change callback for indicators
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                recyclerView.invalidate(); // Force redraw to apply transformations
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                updateIndicators(position);
             }
         });
 
-        // Create and set the adapter
-        adapter = new FeatureCarouselAdapter(getFeaturesList(), this);
-        featureCarousel.setAdapter(adapter);
+
+        // Add padding to show adjacent items
+        int sidePadding = (int) (getResources().getDisplayMetrics().widthPixels * 0.15);
+
+        try {
+            Field recyclerViewField = ViewPager2.class.getDeclaredField("mRecyclerView");
+            recyclerViewField.setAccessible(true);
+
+            RecyclerView recyclerView = (RecyclerView) recyclerViewField.get(viewPager);
+            if (recyclerView != null) {
+                recyclerView.setPadding(sidePadding, 0, sidePadding, 0);
+                recyclerView.setClipToPadding(false);
+            }
+        } catch (Exception e) {
+            Log.e("MainActivity", "Error setting ViewPager2 padding", e);
+            // Fallback
+            viewPager.setPadding(sidePadding, 0, sidePadding, 0);
+            viewPager.setClipToPadding(false);
+        }
 
         // Add indicators for the carousel
-        addCarouselIndicators(featureCarousel, adapter.getItemCount());
+        setupIndicators(adapter.getItemCount());
+
+        // Set initial indicator
+        updateIndicators(0);
+
+        // Optional: Set page margin
+        setPageMargins();
     }
 
-    // Custom item decoration for proper spacing according to Material 3 guidelines
-    private class CarouselItemDecoration extends RecyclerView.ItemDecoration {
-        @Override
-        public void getItemOffsets(@NonNull Rect outRect, @NonNull View view,
-                                   @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view);
-            int itemCount = parent.getAdapter().getItemCount();
+    // Set page margins for better visual appearance
+    private void setPageMargins() {
+        // Create a page margin to show part of adjacent pages
+        ViewPager2.PageTransformer compositeTransformer = (page, position) -> {
+            // This is handled by our HeroCarouselPageTransformer
+        };
 
-            // Apply proper spacing according to Material 3 guidelines
-            if (position == 0) {
-                outRect.left = dpToPx(16); // Start margin
-            } else {
-                outRect.left = dpToPx(8); // Item spacing
-            }
-
-            if (position == itemCount - 1) {
-                outRect.right = dpToPx(16); // End margin
-            } else {
-                outRect.right = dpToPx(8); // Item spacing
-            }
+        // Get the RecyclerView inside ViewPager2
+        View recyclerView = viewPager.getChildAt(0);
+        if (recyclerView instanceof RecyclerView) {
+            // Add padding to show part of adjacent pages
+            int padding = getResources().getDimensionPixelOffset(R.dimen.carousel_page_margin);
+            recyclerView.setPadding(padding, 0, padding, 0);
+            ((RecyclerView) recyclerView).setClipToPadding(false);
         }
     }
 
-    // Add indicators for the carousel
-    private void addCarouselIndicators(RecyclerView carousel, int itemCount) {
-        // Create indicator views (dots) and add them to the container
+    // Set up indicator dots
+    private void setupIndicators(int count) {
         indicatorContainer.removeAllViews();
 
-        for (int i = 0; i < itemCount; i++) {
+        for (int i = 0; i < count; i++) {
             View indicator = new View(this);
-            int size = dpToPx(8);
+            int size = getResources().getDimensionPixelSize(R.dimen.indicator_size);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
-            params.setMargins(dpToPx(4), 0, dpToPx(4), 0);
+            int margin = getResources().getDimensionPixelSize(R.dimen.indicator_margin);
+            params.setMargins(margin, 0, margin, 0);
             indicator.setLayoutParams(params);
             indicator.setBackgroundResource(R.drawable.indicator_dot);
             indicatorContainer.addView(indicator);
         }
-
-        // Update indicators when scrolling
-        carousel.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                updateIndicators(recyclerView);
-            }
-
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    updateIndicators(recyclerView);
-                }
-            }
-        });
-
-        // Initial update
-        updateIndicators(carousel);
     }
 
-    // Update indicator dots based on current position
-    private void updateIndicators(RecyclerView carousel) {
-        LinearLayoutManager layoutManager = (LinearLayoutManager) carousel.getLayoutManager();
-        if (layoutManager != null) {
-            int currentPosition = layoutManager.findFirstCompletelyVisibleItemPosition();
-            if (currentPosition == RecyclerView.NO_POSITION) {
-                currentPosition = layoutManager.findFirstVisibleItemPosition();
-            }
-
-            for (int i = 0; i < indicatorContainer.getChildCount(); i++) {
-                View indicator = indicatorContainer.getChildAt(i);
-                indicator.setSelected(i == currentPosition);
-            }
+    // Update indicators based on current position
+    private void updateIndicators(int position) {
+        for (int i = 0; i < indicatorContainer.getChildCount(); i++) {
+            View indicator = indicatorContainer.getChildAt(i);
+            indicator.setSelected(i == position);
         }
-    }
-
-    // Convert dp to pixels
-    private int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
     // Sample data for the carousel
