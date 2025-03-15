@@ -10,7 +10,7 @@
     <string name="feature_weather_activity_title">Weather</string>
     <string name="feature_weather_activity_description">Create and edit the weather effects for your games</string>
     <string name="feature_time_and_events_activity_title">Time &amp; Events</string>
-    <string name="feature_time_and_events_activity_description">Create, edit and manage Game World Calendars, clocks, and events</string>
+    <string name="feature_time_and_events_activity_description">Create, and edit Game World Calendars, clocks, and events</string>
     <string name="feature_campaigns_activity_title">Campaigns</string>
     <string name="feature_campaigns_activity_description">Create and edit your tabletop campaign settings</string>
     <string name="feature_adventures_activity_title">Adventures</string>
@@ -22,4 +22,7 @@
     <string name="menu_option_title_export_data">Export Data</string>
     <string name="menu_option_title_import_data">Import Data</string>
     <string name="menu_option_title_help">Help</string>
+    <string name="quick_action_button_roll_dice">Roll Dice</string>
+    <string name="quick_action_button_start_combat">Start Combat</string>
+    <string name="quick_action_button_notes">Notes</string>
 </resources>

@@ -30,7 +30,7 @@
     <LinearLayout
         android:id="@+id/welcome_message_view"
         android:layout_width="match_parent"
-        android:layout_height="642dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/app_bar_layout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -40,7 +40,8 @@
             android:id="@+id/campaign_summary_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/campaign_title"
@@ -84,7 +86,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
             android:text="@string/features_menu_header"
             android:textAppearance="?attr/textAppearanceHeadline5"
             app:layout_constraintTop_toBottomOf="@id/campaign_summary_card" />
@@ -128,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Roll Dice" />
+            android:text="@string/quick_action_button_roll_dice" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/quick_combat"
@@ -136,13 +137,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Start Combat" />
+            android:text="@string/quick_action_button_start_combat" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/quick_notes"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Take Notes" />
+            android:text="@string/quick_action_button_notes" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
