@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- activity_main.xml -->
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,24 +10,29 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/welcome_message_view"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="DM Companion"
+            app:title="Delve GM"
             app:menu="@menu/top_app_bar_menu"
             style="@style/Widget.MaterialComponents.Toolbar.Surface" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/welcome_message_view"
         android:layout_width="match_parent"
         android:layout_height="642dp"
         android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <!-- Welcome message and current campaign info -->
@@ -102,42 +107,42 @@
             android:orientation="horizontal"
             android:padding="16dp" />
 
-        <!-- Quick actions section -->
-        <LinearLayout
-            android:id="@+id/quick_actions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/quick_dice_roll"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="Roll Dice" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/quick_combat"
-                style="@style/Widget.MaterialComponents.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="Start Combat" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/quick_notes"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Take Notes" />
-        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+    <!-- Quick actions section -->
+    <LinearLayout
+        android:id="@+id/quick_actions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/quick_dice_roll"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Roll Dice" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/quick_combat"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Start Combat" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/quick_notes"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Take Notes" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,7 +18,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final CarouselStrategy strategy = new MultiBrowseCarouselStrategy();
+//    private final CarouselStrategy strategy = new MultiBrowseCarouselStrategy();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         RecyclerView featureCarousel = findViewById(R.id.featureCarousel);
-        featureCarousel.setLayoutManager(new CarouselLayoutManager(strategy));
+        featureCarousel.setLayoutManager(new CarouselLayoutManager(new HeroCarouselStrategy()));
 
         FeatureCarouselAdapter adapter = new FeatureCarouselAdapter(getFeaturesList(), this);
         featureCarousel.setAdapter(adapter);

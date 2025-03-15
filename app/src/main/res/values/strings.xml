@@ -17,4 +17,9 @@
     <string name="feature_adventures_activity_description">Create and edit your tabletop adventures</string>
     <string name="features_menu_header">Game Master Tools</string>
     <string name="feature_image_description">Feature image</string>
+    <string name="menu_option_title_settings">Settings</string>
+    <string name="menu_option_title_change_campaign">Change Campaign</string>
+    <string name="menu_option_title_export_data">Export Data</string>
+    <string name="menu_option_title_import_data">Import Data</string>
+    <string name="menu_option_title_help">Help</string>
 </resources>
