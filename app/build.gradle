@@ -1,10 +1,11 @@
 plugins {
     id 'com.android.application'
+    id 'de.mannodermaus.android-junit5'
 }
 
 android {
     namespace 'com.worldweaver.delvegm'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.worldweaver.delvegm"
@@ -14,6 +15,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArgument "runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder"
     }
 
     buildTypes {
@@ -23,11 +25,24 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
     buildFeatures {
         viewBinding true
+    }
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+
+            // Optional: If you're having memory issues
+            jvmArgs = ['-Xmx1024m']
+
+            testLogging {
+                events "passed", "skipped", "failed"
+                exceptionFormat "full"
+            }
+        }
     }
 }
 
@@ -42,12 +57,18 @@ dependencies {
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'com.github.bumptech.glide:glide:4.16.0'
 
-    implementation 'org.projectlombok:lombok:1.18.36'
+    implementation 'org.projectlombok:lombok:1.18.38'
 
-    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
 
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.12.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.12.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.12.1'
+    testImplementation 'org.junit.platform:junit-platform-launcher:1.12.1'
+    testImplementation 'org.mockito:mockito-core:5.14.2'      // Core Mockito library
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.14.2'
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    androidTestImplementation "org.junit.jupiter:junit-jupiter-api:5.12.1"
 }

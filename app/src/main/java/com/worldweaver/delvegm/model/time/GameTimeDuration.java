@@ -1,4 +1,4 @@
-package com.worldweaver.delvegm.model.character;
+package com.worldweaver.delvegm.model.time;
 
 import com.worldweaver.delvegm.model.WorldWeaverModel;
 
@@ -9,5 +9,9 @@ import lombok.experimental.SuperBuilder;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
-public class CharacterStat extends WorldWeaverModel {
+public abstract class GameTimeDuration<T> extends WorldWeaverModel {
+
+    public abstract T getDurationType();
+    public abstract int getDurationAmount();
+
 }
