@@ -1,6 +1,8 @@
 package com.worldweaver.delvegm.model.time;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Assertions;
@@ -18,6 +20,7 @@ class GameCalendarTest {
 
     private static final int LEAP_YEAR = 2000;
     private static final int NON_LEAP_YEAR = 2001;
+    private static final int LEAP_MONTH = 2;
     private static final int SECONDS_IN_MINUTE = 60;
     private static final int MINUTES_IN_HOUR = 60;
     private static final int HOURS_IN_DAY = 24;
@@ -44,9 +47,9 @@ class GameCalendarTest {
 
     @BeforeEach
     void setup() {
-        when(leapYearRule.isLeapYear(LEAP_YEAR)).thenReturn(true);
-        when(leapYearRule.isLeapYear(NON_LEAP_YEAR)).thenReturn(false);
-        when(leapYearRule.getLeapMonth()).thenReturn(2);
+//        when(leapYearRule.isLeapYear(LEAP_YEAR)).thenReturn(true);
+//        when(leapYearRule.isLeapYear(NON_LEAP_YEAR)).thenReturn(false);
+//        when(leapYearRule.getLeapMonth()).thenReturn(LEAP_MONTH);
 
         gameCalendar = GameCalendar.builder()
                                    .name("Test Calendar")
@@ -86,6 +89,29 @@ class GameCalendarTest {
     }
 
     @Test
+    void testGetSecondsInMonth() {
+        when(leapYearRule.isLeapMonth(LEAP_YEAR, LEAP_MONTH)).thenReturn(true);
+        for (int i=1; i<=4; i++) {
+            if (i != LEAP_MONTH) {
+                when(leapYearRule.isLeapMonth(LEAP_YEAR, i)).thenReturn(false);
+            }
+        }
+        for (int i=1; i<=4; i++) {
+            when(leapYearRule.isLeapMonth(NON_LEAP_YEAR, i)).thenReturn(false);
+        }
+
+        Assertions.assertEquals(2678400, gameCalendar.getSecondsInMonth(LEAP_YEAR, 1));
+        Assertions.assertEquals(2505600, gameCalendar.getSecondsInMonth(LEAP_YEAR, 2));
+        Assertions.assertEquals(2678400, gameCalendar.getSecondsInMonth(LEAP_YEAR, 3));
+        Assertions.assertEquals(2592000, gameCalendar.getSecondsInMonth(LEAP_YEAR, 4));
+
+        Assertions.assertEquals(2678400, gameCalendar.getSecondsInMonth(NON_LEAP_YEAR, 1));
+        Assertions.assertEquals(2419200, gameCalendar.getSecondsInMonth(NON_LEAP_YEAR, 2));
+        Assertions.assertEquals(2678400, gameCalendar.getSecondsInMonth(NON_LEAP_YEAR, 3));
+        Assertions.assertEquals(2592000, gameCalendar.getSecondsInMonth(NON_LEAP_YEAR, 4));
+    }
+
+    @Test
     void testGetDaysInYear() {
         int leapYear = 2000;
         int nonLeapYear = 2001;
@@ -97,6 +123,9 @@ class GameCalendarTest {
 
     @Test
     void testGetDayOfYear() {
+        when(leapYearRule.isLeapYear(LEAP_YEAR)).thenReturn(true);
+        when(leapYearRule.isLeapYear(NON_LEAP_YEAR)).thenReturn(false);
+        when(leapYearRule.getLeapMonth()).thenReturn(LEAP_MONTH);
         // While the days are before the end of February,
         // the day of the year will be the same whether it is a leap year or not
         for (int m = 1; m <= 2; m++) {
@@ -120,8 +149,31 @@ class GameCalendarTest {
 
     @Test
     void testGetDaysInMonth() {
-        Assertions.assertEquals(31, gameCalendar.getDaysInMonth(LEAP_YEAR, 0));
-        Assertions.assertEquals(31, gameCalendar.getDaysInMonth(NON_LEAP_YEAR, 0));
+        when(leapYearRule.isLeapMonth(LEAP_YEAR, 1)).thenReturn(false);
+        when(leapYearRule.isLeapMonth(LEAP_YEAR, 2)).thenReturn(true);
+        when(leapYearRule.isLeapMonth(LEAP_YEAR, 3)).thenReturn(false);
+        when(leapYearRule.isLeapMonth(NON_LEAP_YEAR, 1)).thenReturn(false);
+        when(leapYearRule.isLeapMonth(NON_LEAP_YEAR, 2)).thenReturn(false);
+        when(leapYearRule.isLeapMonth(NON_LEAP_YEAR, 3)).thenReturn(false);
+
+        Assertions.assertEquals(31, gameCalendar.getDaysInMonth(LEAP_YEAR, 1));
+        Assertions.assertEquals(31, gameCalendar.getDaysInMonth(NON_LEAP_YEAR, 1));
+        Assertions.assertEquals(29, gameCalendar.getDaysInMonth(LEAP_YEAR, 2));
+        Assertions.assertEquals(28, gameCalendar.getDaysInMonth(NON_LEAP_YEAR, 2));
+        Assertions.assertEquals(31, gameCalendar.getDaysInMonth(LEAP_YEAR, 3));
+        Assertions.assertEquals(31, gameCalendar.getDaysInMonth(NON_LEAP_YEAR, 3));
+    }
+
+    @Test
+    void testGetAllDaysUpToYear() {
+        // default leap year value to false
+        when(leapYearRule.isLeapYear(anyInt())).thenReturn(false);
+        // set leap year to true for every 4 years
+        // We won't worry about all of the other caveats for leap years, just every 4 is enough
+        for (int i=4; i<2000; i+=4) {
+            when(leapYearRule.isLeapYear(i)).thenReturn(true);
+        }
+        Assertions.assertEquals(730134, gameCalendar.getAllDaysUpToYear(2000));
     }
 
 }

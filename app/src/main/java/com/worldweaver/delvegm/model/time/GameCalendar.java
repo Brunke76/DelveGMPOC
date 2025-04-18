@@ -53,6 +53,10 @@ public class GameCalendar extends WorldWeaverModel {
         return getSecondsInDay() * getDaysInWeek();
     }
 
+    public int getSecondsInMonth(int year, int monthOfYear) {
+        return getSecondsInDay() * getDaysInMonth(year, monthOfYear);
+    }
+
     public int getDaysInWeek() {
         return this.weekDayNames.size();
     }
@@ -62,15 +66,21 @@ public class GameCalendar extends WorldWeaverModel {
     }
 
     public int getDayOfYear(int year, int monthOfYear, int dayOfMonth) {
+        // If this is the first month of the year, then the day of the year and day of the month will be the same
         int dayOfYear = dayOfMonth;
+        // If the current month is after the first month:
         if (monthOfYear > 1) {
-            List<GameMonth> monthsSoFar = months.subList(0, monthOfYear - 1);
-            // We need to get a sublist containing all of the months BEFORE the current month
+            // then we need to get a list of all of the months up to the current month
+            // We need to subtract 2 from the current month so that we have the index of the month BEFORE the current
             // (since it is not over, we don't want to add all those days to the total)
+            List<GameMonth> monthsSoFar = months.subList(0, monthOfYear - 2);
+            // Now we need to loop through the months in the list and add the number of days
+            // We only care about the normal number of days, we will add the leap-day later as needed
             dayOfYear += monthsSoFar.stream()
                                     .map(GameMonth::getNumberOfDays)
                                     .reduce(0, Integer::sum);
-            // If this is a leap year, we need to see if we should add one more day
+            // If this is a leap year and the leap month is already passed,
+            // then we need to add the leap day to the total count
             if (leapYearRule.isLeapYear(year) && leapYearRule.getLeapMonth() < monthOfYear) {
                 dayOfYear ++;
             }
@@ -78,17 +88,13 @@ public class GameCalendar extends WorldWeaverModel {
         return dayOfYear;
     }
 
-    public int getDaysInMonth(int year, int monthIndex) {
-        int daysInMonth = months.size() > monthIndex ? months.get(monthIndex).getNumberOfDays() : 0;
+    public int getDaysInMonth(int year, int monthOfYear) {
+        int daysInMonth = months.size() > monthOfYear ? months.get(monthOfYear - 1).getNumberOfDays() : 0;
         // If this is a leap year, and the leap month we need to add one more day
-        if (leapYearRule.isLeapMonth(year, monthIndex + 1)) {
+        if (leapYearRule.isLeapMonth(year, monthOfYear)) {
             daysInMonth ++;
         }
         return daysInMonth;
-    }
-
-    public int getSecondsInMonth(int year, int monthIndex) {
-        return getSecondsInDay() * getDaysInMonth(year, monthIndex);
     }
 
     public long getAllDaysUpToYear(int year) {

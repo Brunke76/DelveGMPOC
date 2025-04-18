@@ -84,9 +84,9 @@ public class DnDGameDateTime implements GameDateTime<DnDGameTimeDuration> {
     @Override
     public int getMonth() {
         // Calculate from totalSeconds using calendar rules
-        int currentMonth = 0;
+        int currentMonth = 1;
         int remainingSeconds = this.secondOfYear;
-        while (remainingSeconds >= 0 && currentMonth < calendar.getMonths().size()) {
+        while (remainingSeconds >= 0 && currentMonth <= calendar.getMonths().size()) {
             remainingSeconds -= calendar.getSecondsInMonth(this.year, currentMonth);
             currentMonth++;
         }
@@ -96,10 +96,10 @@ public class DnDGameDateTime implements GameDateTime<DnDGameTimeDuration> {
     @Override
     public int getDay() {
         // Calculate from totalSeconds using calendar rules
-        int currentMonth = 0;
+        int currentMonth = 1;
         int remainingSeconds = this.secondOfYear;
         while (remainingSeconds >= calendar.getSecondsInMonth(this.year, currentMonth)
-                && currentMonth < calendar.getMonths().size()) {
+                && currentMonth <= calendar.getMonths().size()) {
             remainingSeconds -= calendar.getSecondsInMonth(this.year, currentMonth);
             currentMonth++;
         }
