@@ -35,8 +35,15 @@ android {
         unitTests.all {
             useJUnitPlatform()
 
-            // Optional: If you're having memory issues
-            jvmArgs = ['-Xmx1024m']
+            // Configure JVM arguments for tests
+            jvmArgs = [
+                '-Xmx1024m'
+            ]
+            
+            // Add the byte-buddy-agent as a JVM argument to fix Mockito warnings
+            doFirst {
+                jvmArgs += "-javaagent:${classpath.find { it.name.contains("byte-buddy-agent") }.absolutePath}"
+            }
 
             testLogging {
                 events "passed", "skipped", "failed"
@@ -57,16 +64,15 @@ dependencies {
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'com.github.bumptech.glide:glide:4.16.0'
 
-    implementation 'org.projectlombok:lombok:1.18.38'
-
     annotationProcessor 'org.projectlombok:lombok:1.18.38'
+    implementation 'org.projectlombok:lombok:1.18.38'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.12.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.12.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.12.1'
     testImplementation 'org.junit.platform:junit-platform-launcher:1.12.1'
-    testImplementation 'org.mockito:mockito-core:5.14.2'      // Core Mockito library
-    testImplementation 'org.mockito:mockito-junit-jupiter:5.14.2'
+    testImplementation 'org.mockito:mockito-core:5.15.2'      // Core Mockito library
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.15.2'
 
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'

@@ -42,6 +42,22 @@ public interface LeapYearRule {
     int getAdjustedSecondsInYear(int daysInRegularYear, int secondsInADay);
 
     /**
+     * Gets the total number of days from the start of startYear up to (but not including) endYear
+     * including the additional days from leap years.
+     * For example:
+     *  - For 'no leap year' rule, this value would be daysInRegularYear * (endYear - startYear)
+     *  - The Gregorian calendar has 365.24219 days, And there are 86400 seconds in a day.
+     *      So the amount of days between 2 years would be:
+     *          365.24219 * (endYear - startYear)
+     * @param startYear - The starting year in the comparison (included in day count)
+     * @param endYear - The ending year of the comparison (excluded from day count)
+     * @param daysInRegularYear - number of days in a normal (non-leap) year
+     * @param secondsInADay - number of seconds in a day (useful for calculating partial days when dealing with average year length)
+     * @return number of days from the start of startYear to the start of endYear
+     */
+    int getNumberOfDaysBetweenYears(int startYear, int endYear, int daysInRegularYear);
+
+    /**
      * Returns true if the input month (1 based) of the input year is a leap month.
      * If the input year is not a leap year, or the input month is not the leap month, then should return false.
      * @param year

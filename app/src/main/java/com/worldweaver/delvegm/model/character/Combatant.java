@@ -1,36 +1,31 @@
 package com.worldweaver.delvegm.model.character;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.worldweaver.delvegm.model.WorldWeaverModel;
+import com.worldweaver.delvegm.model.character.armor.CombatantArmorManager;
 import com.worldweaver.delvegm.model.character.attributes.CharacterAttribute;
 import com.worldweaver.delvegm.model.character.attributes.CharacterAttributeEffect;
-import com.worldweaver.delvegm.model.character.types.CharacterStatType;
+import com.worldweaver.delvegm.model.character.health.CombatantHealthManager;
 
 import java.util.List;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
 
 public interface Combatant {
 
     @Nullable
     Integer getInitiative();
 
-    int getCurrentHealth();
+    CombatantHealthManager getHealthManager();
 
-    void addDamage(int damageAmount);
-
-    void addHealing(int healingAmount);
-
-    int getCurrentArmor();
+    CombatantArmorManager getArmorManager();
 
     List<CharacterAttribute> getAttributes();
 
     List<CharacterAttribute> getSkills();
 
     List<CharacterAttributeEffect> getActiveAttributeEffects();
+
+    void addDamage(int damageAmount);
+
+    void addHealing(int healingAmount);
 
 }

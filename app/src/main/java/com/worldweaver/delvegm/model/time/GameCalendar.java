@@ -39,6 +39,10 @@ public class GameCalendar extends WorldWeaverModel {
         return leapYearRule.getAdjustedSecondsInYear(getDaysInRegularYear(), getSecondsInDay());
     }
 
+    public int getDaysInFromYearToYear(int startYear, int endYear) {
+        return leapYearRule.getNumberOfDaysBetweenYears(startYear, endYear, getDaysInRegularYear());
+    }
+
     // Add methods for calendar calculations
 
     public int getSecondsInHour() {
@@ -97,12 +101,8 @@ public class GameCalendar extends WorldWeaverModel {
         return daysInMonth;
     }
 
-    public long getAllDaysUpToYear(int year) {
-        long days = 0;
-        for (int i = 1; i < year; i++) {
-            days += getDaysInYear(i);
-        }
-        return days;
+    public int getAllDaysUpToYear(int year) {
+        return getDaysInFromYearToYear(1, year);
     }
 
     public int getDayOfWeek(int year, int dayOfYear) {

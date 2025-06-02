@@ -12,10 +12,12 @@ import lombok.ToString;
 public class GameDateTimeAdjustment {
 
     private final int years;
-    private final long seconds;
+    private final int days;
+    private final int seconds;
 
-     GameDateTimeAdjustment(int years, long seconds) {
+     GameDateTimeAdjustment(int years, int days, int seconds) {
         this.years = years;
+        this.days = days;
         this.seconds = seconds;
     }
 

@@ -31,6 +31,15 @@ class NoLeapYearRuleTest {
     }
 
     @Test
+    void testGetDaysBetweenYears() {
+        int daysInRegularYear = 365;
+        int startYear = 2020;
+        int endYear = 2024;
+        int daysBetween = leapYearRule.getNumberOfDaysBetweenYears(startYear, endYear, daysInRegularYear);
+        Assertions.assertEquals(1460, daysBetween);
+    }
+
+    @Test
     void testIsLeapMonth() {
         for(int i = 1; i <= 12; i++) {
             Assertions.assertFalse(leapYearRule.isLeapMonth(2000, i));

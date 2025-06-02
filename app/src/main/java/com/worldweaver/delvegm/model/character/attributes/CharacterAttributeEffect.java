@@ -17,6 +17,6 @@ public class CharacterAttributeEffect extends WorldWeaverModel {
 
     CharacterStatType attributeType;
     int effectAmount;
-    GameTimeDuration duration;
+    GameTimeDuration<?> duration;
 
 }

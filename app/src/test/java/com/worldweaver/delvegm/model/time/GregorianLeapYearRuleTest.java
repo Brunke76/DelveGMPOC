@@ -1,8 +1,9 @@
 package com.worldweaver.delvegm.model.time;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class GregorianLeapYearRuleTest {
@@ -10,24 +11,53 @@ class GregorianLeapYearRuleTest {
     LeapYearRule leapYearRule = new GregorianLeapYearRule();
     @Test
     void useLeapYears() {
-        Assertions.assertTrue(leapYearRule.useLeapYears());
+        assertTrue(leapYearRule.useLeapYears());
     }
 
     @Test
     void getLeapMonth() {
-        Assertions.assertEquals(2, leapYearRule.getLeapMonth());
+        assertEquals(2, leapYearRule.getLeapMonth());
     }
 
     @Test
     void getLeapMonthIndex() {
-        Assertions.assertEquals(1, leapYearRule.getLeapMonthIndex());
+        assertEquals(1, leapYearRule.getLeapMonthIndex());
     }
 
     @Test
     void getAdjustedSecondsInYear() {
         int daysInYear = 365;
         int secondsInDay = 86400;
-        Assertions.assertEquals(31556925, leapYearRule.getAdjustedSecondsInYear(daysInYear, secondsInDay));
+        assertEquals(31556925, leapYearRule.getAdjustedSecondsInYear(daysInYear, secondsInDay));
+    }
+
+    @Test
+    void testGetDaysBetweenYears() {
+        int daysInRegularYear = 365;
+        int daysBetween = leapYearRule.getNumberOfDaysBetweenYears(2020, 2021, daysInRegularYear);
+        assertEquals(366, daysBetween);
+        daysBetween = leapYearRule.getNumberOfDaysBetweenYears(2021, 2022, daysInRegularYear);
+        assertEquals(365, daysBetween);
+        daysBetween = leapYearRule.getNumberOfDaysBetweenYears(2020, 2024, daysInRegularYear);
+        assertEquals(1461, daysBetween);
+        daysBetween = leapYearRule.getNumberOfDaysBetweenYears(1920, 2024, daysInRegularYear);
+        assertEquals(37985, daysBetween);
+        daysBetween = leapYearRule.getNumberOfDaysBetweenYears(1020, 2024, daysInRegularYear);
+        assertEquals(366703, daysBetween);
+        daysBetween = leapYearRule.getNumberOfDaysBetweenYears(1921, 2021, daysInRegularYear);
+        assertEquals(36525, daysBetween);
+        daysBetween = leapYearRule.getNumberOfDaysBetweenYears(1921, 2022, daysInRegularYear);
+        assertEquals(36889, daysBetween);
+        daysBetween = leapYearRule.getNumberOfDaysBetweenYears(1, 2022, daysInRegularYear);
+        assertEquals(738154, daysBetween);
+        daysBetween = leapYearRule.getNumberOfDaysBetweenYears(50, 2022, daysInRegularYear);
+        assertEquals(720257, daysBetween);
+        daysBetween = leapYearRule.getNumberOfDaysBetweenYears(50, 151, daysInRegularYear);
+        assertEquals(36889, daysBetween);
+        daysBetween = leapYearRule.getNumberOfDaysBetweenYears(50, 152, daysInRegularYear);
+        assertEquals(37254, daysBetween);
+        daysBetween = leapYearRule.getNumberOfDaysBetweenYears(51, 2022, daysInRegularYear);
+        assertEquals(719892, daysBetween);
     }
 
     @Test
@@ -38,9 +68,9 @@ class GregorianLeapYearRuleTest {
                 int currentYear = 2000 + j;
                 // if it is February and a leap year it should be true
                 if (i == 2 && j % 4 == 0) {
-                    Assertions.assertTrue(leapYearRule.isLeapMonth(currentYear, i));
+                    assertTrue(leapYearRule.isLeapMonth(currentYear, i));
                 } else {
-                    Assertions.assertFalse(leapYearRule.isLeapMonth(currentYear, i));
+                    assertFalse(leapYearRule.isLeapMonth(currentYear, i));
                 }
             }
         }
@@ -52,19 +82,19 @@ class GregorianLeapYearRuleTest {
         for(int i=1; i<100; i++) {
             int checkYear = 2000 + i;
             if (checkYear % 4 == 0) {
-                Assertions.assertTrue(leapYearRule.isLeapYear(checkYear));
+                assertTrue(leapYearRule.isLeapYear(checkYear));
             }
             else {
-                Assertions.assertFalse(leapYearRule.isLeapYear(checkYear));
+                assertFalse(leapYearRule.isLeapYear(checkYear));
             }
         }
         // Check that years divisible by 100 follow the correct pattern (only true when divisible by 400)
         for(int i=100; i<3000; i+=100) {
             if (i % 400 == 0) {
-                Assertions.assertTrue(leapYearRule.isLeapYear(i));
+                assertTrue(leapYearRule.isLeapYear(i));
             }
             else {
-                Assertions.assertFalse(leapYearRule.isLeapYear(i));
+                assertFalse(leapYearRule.isLeapYear(i));
             }
         }
     }

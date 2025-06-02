@@ -25,6 +25,11 @@ public class NoLeapYearRule implements LeapYearRule {
     }
 
     @Override
+    public int getNumberOfDaysBetweenYears(int startYear, int endYear, int daysInRegularYear) {
+        return daysInRegularYear * (endYear - startYear);
+    }
+
+    @Override
     public boolean isLeapMonth(int year, int month) {
         return false;
     }
