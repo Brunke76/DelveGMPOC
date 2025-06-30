@@ -1,7 +1,5 @@
 package com.worldweaver.delvegm.model.character;
 
-import androidx.annotation.Nullable;
-
 import com.worldweaver.delvegm.model.character.armor.CombatantArmorManager;
 import com.worldweaver.delvegm.model.character.attributes.CharacterAttribute;
 import com.worldweaver.delvegm.model.character.attributes.CharacterAttributeEffect;
@@ -9,18 +7,19 @@ import com.worldweaver.delvegm.model.character.health.CombatantHealthManager;
 
 import java.util.List;
 
-public interface Combatant {
+public interface Combatant<HM extends CombatantHealthManager,
+                           AM extends CombatantArmorManager,
+                           CA extends CharacterAttribute> {
 
-    @Nullable
     Integer getInitiative();
 
-    CombatantHealthManager getHealthManager();
+    HM getHealthManager();
 
-    CombatantArmorManager getArmorManager();
+    AM getArmorManager();
 
-    List<CharacterAttribute> getAttributes();
+    List<CA> getAttributes();
 
-    List<CharacterAttribute> getSkills();
+    List<CA> getSkills();
 
     List<CharacterAttributeEffect> getActiveAttributeEffects();
 
