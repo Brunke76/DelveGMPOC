@@ -5,9 +5,11 @@ import com.worldweaver.delvegm.model.WorldWeaverModel;
 import java.math.BigDecimal;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 public class WeatherCondition extends WorldWeaverModel {
     // Minimum time (in seconds) that this weather condition will last
